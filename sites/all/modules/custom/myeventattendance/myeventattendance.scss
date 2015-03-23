@@ -31,3 +31,12 @@
     pointer-events: none;
   }
 }
+
+#attending-wrapper {
+  float: left;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  display: inline-block;
+  border: 1px gray solid;
+  width: 150px;
+}

@@ -90,24 +90,18 @@ function myeventattendance_theme() {
   );
 }
 
-function myeventattendance_flag_flag($flag, $content_id, $account, $flagging) {
-  global $user;
-  $node = menu_get_object();
+function myeventattendance_flag_flag($flag, $entity_id, $account, $flagging) {
+  //global $user;
+  //$node = menu_get_object();
   
   $will_attend_flag = flag_get_flag('will_attend');
   $will_not_attend_flag = flag_get_flag('will_not_attend');
   
   if($flag->name == 'will_attend') {
-    //$will_attend_flag->flag('flag', $node->nid, $user->uid, TRUE);
-    //$will_not_attend_flag->flag('unflag', $node->nid, $user->uid, TRUE);
-    $will_attend_flag->flag('flag', 'will_attend', $node->nid);
-    $will_not_attend_flag->flag('unflag', 'will_not_attend', $node->nid);
+    flag('unflag', 'will_not_attend', $entity_id);
   }
   else if($flag->name == 'will_not_attend') {
-    //$will_not_attend_flag->flag('flag', $node->nid, $user->uid, TRUE);   
-    //$will_attend_flag->flag('unflag', $node->nid, $user->uid, TRUE);
-    $will_not_attend_flag->flag('flag', 'will_not_attend', $node->nid);   
-    $will_attend_flag->flag('unflag', 'will_attend', $node->nid);
+    flag('unflag', 'will_attend', $entity_id);
   }
   else {
     // how...?
