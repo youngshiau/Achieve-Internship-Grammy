@@ -1,0 +1,22 @@
+#myeventattendance-buttons {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  display: inline-block;
+  border: 1px gray solid; }
+  #myeventattendance-buttons #myeventattendance-will {
+    border-right: 1px solid gray; }
+  #myeventattendance-buttons > span {
+    display: inline-block;
+    width: 150px;
+    text-align: center; }
+  #myeventattendance-buttons a {
+    text-decoration: none; }
+  #myeventattendance-buttons a:not(.selected) {
+    color: #333; }
+  #myeventattendance-buttons .selected a {
+    color: white; }
+  #myeventattendance-buttons .selected {
+    background-color: gray;
+    pointer-events: none; }
+
+/*# sourceMappingURL=myeventattendance.css.map */

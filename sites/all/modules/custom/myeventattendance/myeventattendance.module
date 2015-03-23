@@ -1,0 +1,115 @@
+<?php
+
+function myeventattendance_block_info() {
+  $block['myeventattendance'] = array(
+    'info' => t('My Event Attendance'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $block;
+}
+
+function myeventattendance_block_view($delta = '') {
+  global $user;
+  $block = array();
+  $node = menu_get_object();
+  
+  // Instantiate flags.
+  $will_attend_flag = flag_get_flag('will_attend');
+  $will_not_attend_flag = flag_get_flag('will_not_attend');
+  
+  // Create links for flagging/unflagging.
+  $will_attend_link = flag_create_link('will_attend', $node->nid);
+  $will_not_attend_link = flag_create_link('will_not_attend', $node->nid);
+  
+  // Set variables to display status of flag.
+  $status = 'Error calling flag_get_flag.';
+  $will_attend_status = '';
+  $will_not_attend_status = '';
+  
+  // Check if the user will attend.
+  if($will_attend_flag 
+     && $will_not_attend_flag
+     && $will_attend_flag->is_flagged($node->nid, $user->uid)
+     && !$will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
+    $status = 'You will attend.';
+    $will_attend_status = 'selected';
+  }
+  
+  // Check if the user will not attend.
+  else if($will_attend_flag 
+          && $will_not_attend_flag
+          && !$will_attend_flag->is_flagged($node->nid, $user->uid)
+          && $will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
+    $status = 'You will not attend.';
+    $will_not_attend_status = 'selected';
+  }
+  
+  //both attending?!
+  else if($will_attend_flag 
+          && $will_not_attend_flag
+          && $will_attend_flag->is_flagged($node->nid, $user->uid)
+          && $will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
+    $status = 'You are both attending and not attending?!';
+    $will_attend_status = 'selected';
+    $will_not_attend_status = 'selected';
+  }
+  
+  // If the user does not have a flag for 'will attend' and 'will not attend', 
+  // then they have not yet responded.
+  else {
+    $status = 'You have not yet replied.';
+  }
+  
+  switch($delta) {
+    case ('myeventattendance'):
+      $vars = array(
+        'willAttend' => '<span id="myeventattendance-will" class="' . $will_attend_status . '">' . $will_attend_link . '</span>',
+        'willNotAttend' => '<span id="myeventattendance-wont" class="' . $will_not_attend_status . '">' . $will_not_attend_link . '</span>',
+        'status' => $status,
+      );
+      $block['subject'] = '';
+      $block['content'] = theme('myeventattendance_output', $vars);
+      break;
+  }
+  
+  return $block;
+}
+
+function myeventattendance_theme() {  
+  return array(
+    'myeventattendance_output' => array(
+      'template' => 'output',
+      'path' => drupal_get_path('module', 'myeventattendance') . '/templates',
+      'type' => 'theme',
+      'variables' => array(
+        'willAttend' => NULL,
+        'willNotAttend' => NULL,
+        'status' => NULL,
+      ),
+    ),
+  );
+}
+
+function myeventattendance_flag_flag($flag, $content_id, $account, $flagging) {
+  global $user;
+  $node = menu_get_object();
+  
+  $will_attend_flag = flag_get_flag('will_attend');
+  $will_not_attend_flag = flag_get_flag('will_not_attend');
+  
+  if($flag->name == 'will_attend') {
+    //$will_attend_flag->flag('flag', $node->nid, $user->uid, TRUE);
+    //$will_not_attend_flag->flag('unflag', $node->nid, $user->uid, TRUE);
+    $will_attend_flag->flag('flag', 'will_attend', $node->nid);
+    $will_not_attend_flag->flag('unflag', 'will_not_attend', $node->nid);
+  }
+  else if($flag->name == 'will_not_attend') {
+    //$will_not_attend_flag->flag('flag', $node->nid, $user->uid, TRUE);   
+    //$will_attend_flag->flag('unflag', $node->nid, $user->uid, TRUE);
+    $will_not_attend_flag->flag('flag', 'will_not_attend', $node->nid);   
+    $will_attend_flag->flag('unflag', 'will_attend', $node->nid);
+  }
+  else {
+    // how...?
+  }
+}

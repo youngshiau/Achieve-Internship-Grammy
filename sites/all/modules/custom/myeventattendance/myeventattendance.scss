@@ -1,0 +1,33 @@
+#myeventattendance-buttons {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  display: inline-block;
+  border: 1px gray solid;
+  
+  #myeventattendance-will {
+    border-right: 1px solid gray;
+  }
+  
+  >span {
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  a:not(.selected) {
+    color: #333;
+  }
+  
+  .selected a {
+    color: white;
+  }
+  
+  .selected {
+    background-color: gray;
+    pointer-events: none;
+  }
+}

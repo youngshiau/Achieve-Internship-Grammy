@@ -1,0 +1,6 @@
+name = MyEventAttendance
+description = Custom attendance module for individual events for Achieve Internship A1
+package = MyPackage
+core = 7.x
+
+stylesheets[all][] = myeventattendance.css
