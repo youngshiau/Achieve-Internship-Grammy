@@ -32,7 +32,7 @@ function mycalendartabs_theme() {
   return array(
     'mycalendartabs_output' => array(
       'template' => 'output',
-      'path' => drupal_get_path('module', 'mycalendartabs'),
+      'path' => drupal_get_path('module', 'mycalendartabs') . '/templates',
       'type' => 'theme',
       'variables' => array(
         'month' => NULL,

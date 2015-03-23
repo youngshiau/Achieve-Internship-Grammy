@@ -2,7 +2,7 @@
   width: 100px;
   display: inline-block;
   text-align: center;
-  cursor: hand; }
+  cursor: pointer; }
 #mycalendartabs-tabs .selected {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
