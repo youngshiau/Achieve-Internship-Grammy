@@ -1,0 +1,1 @@
+<div id="mynavbar"><?php print $calendar . ' ' . $board . ' ' . $news . ' ' . $documents; ?></div>

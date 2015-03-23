@@ -1,0 +1,21 @@
+#mycalendartabs-tabs {
+  span {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+    cursor: hand;
+  }
+  
+  .selected {
+    // button styling
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: gray;
+    color: white;
+    // border: 1px solid gray;
+  }
+}
+
+#calendar-year, #calendar-upcoming {
+  display: none;
+}

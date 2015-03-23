@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * Declare what blocks are provided by My Logout.
+ *
+ * Implements hook_block_info().
+ */
+function mylogout_block_info()
+{
+  $block['mylogout'] = array('info' => t('My Logout'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  return $block;
+}
+
+/**
+ * Defines what mylogout is going to look like.
+ *
+ * Implements hook_block_view().
+ */
+function mylogout_block_view($delta = '')
+{
+  global $user;
+
+  switch ($delta) {
+    case('mylogout'):
+      $block = array();
+
+      $profile_url = url('user');
+      $profile_tag = '<a id="mylogout-profile" href="' . $profile_url . '">' . $user->name . '</a>';
+
+      $logout_url = url('user/logout');
+      $logout_tag = '<a id="mylogout-logout" href="' . $logout_url . '"><button>Log out</button></a>';
+
+      $mylogout_content = '<div id="mylogout">' . $profile_tag . ' ' . $logout_tag . '</div>';
+
+      $block['subject'] = '';
+      $block['content'] = theme('mylogout_output', array('mylogout_content' => $mylogout_content));
+
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Themes the block using hook_theme to specify a theme function and implement
+ * it using theme_mythemefunction.
+ *
+ * Implements hook_theme().
+ */
+function mylogout_theme()
+{
+  return array(
+    'mylogout_output' => array('variables' => array('mylogout_content' => NULL))
+  );
+}
+
+/**
+ * Displays output.
+ */
+function theme_mylogout_output($mylogout_array)
+{
+   $content = $mylogout_array['mylogout_content'];
+   return $content;
+}

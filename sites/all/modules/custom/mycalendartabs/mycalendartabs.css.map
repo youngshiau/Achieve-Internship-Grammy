@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,yBAAK;EACH,KAAK,EAAE,KAAK;EACZ,OAAO,EAAE,YAAY;EACrB,UAAU,EAAE,MAAM;EAClB,MAAM,EAAE,IAAI;AAGd,8BAAU;EAER,kBAAkB,EAAE,GAAG;EACvB,qBAAqB,EAAE,GAAG;EAC1B,gBAAgB,EAAE,IAAI;EACtB,KAAK,EAAE,KAAK;;AAKhB,kCAAmC;EACjC,OAAO,EAAE,IAAI",
+"sources": ["mycalendartabs.scss"],
+"names": [],
+"file": "mycalendartabs.css"
+}

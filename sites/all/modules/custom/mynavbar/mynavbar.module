@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * Declare what blocks are provided by My Navbar.
+ *
+ * Implements hook_block_info().
+ */
+function mynavbar_block_info() {
+  $block['mynavbar'] = array(
+    'info' => t('My Navbar'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $block;
+}
+
+/**
+ * Defines what mynavbar is going to look like.
+ *
+ * Implements hook_block_view().
+ */
+function mynavbar_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case('mynavbar'):      
+      $vars = array(
+        'calendar' => '<a href="' . url('board/calendar') . '"><button>Calendar</button></a>',
+        'board' => '<a href="' . url('board/members') . '"><button>The Board</button></a>',
+        'news' => '<a href="' . url('board/news') . '"><button>News</button></a>',
+        'documents' => '<a href="' . url('view-documents') . '"><button>Documents</button></a>',
+      );
+      $block['subject'] = '';
+      $block['content'] = theme('mynavbar_output', $vars);
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Themes the block using hook_theme to specify a theme function and implement
+ * it using theme_mythemefunction.
+ *
+ * Implements hook_theme().
+ */
+function mynavbar_theme() {
+  global $base_path;
+  
+  //theme block with template file
+  return array(
+    'mynavbar_output' => array(
+      'template' => 'output', 
+      'path' => $base_path . 'sites/all/modules/custom/mynavbar/templates', 
+      'type' => 'theme', 
+      'variables' => array(
+        'calendar' => NULL, 
+        'board' => NULL,
+        'committees' => NULL,
+        'news' => NULL,
+        'documents' => NULL,
+      ),
+    ),
+  );
+}

@@ -1,0 +1,6 @@
+name = MyLogout
+description = Custom logout module for Achieve Internship A1
+package = MyPackage
+core = 7.x
+
+stylesheets[all][] = mylogout.css

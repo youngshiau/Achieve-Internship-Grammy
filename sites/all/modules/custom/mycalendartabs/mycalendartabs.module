@@ -1,0 +1,44 @@
+<?php
+
+function mycalendartabs_block_info() {
+  $block['mycalendartabs'] = array(
+    'info' => t('My Calendar Tabs'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $block;
+}
+
+function mycalendartabs_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case ('mycalendartabs'):
+      $vars = array(
+        'month' => '<span id="mycalendartabs-month" class="selected">Month</span>',
+        'year' => '<span id="mycalendartabs-year">Year</span>',
+        'upcoming' => '<span id="mycalendartabs-upcoming">Upcoming</span>',
+      );
+      $block['subject'] = '';
+      $block['content'] = theme('mycalendartabs_output', $vars);
+      break;
+  }
+  
+  return $block;
+}
+
+function mycalendartabs_theme() {
+  global $base_path;
+  
+  return array(
+    'mycalendartabs_output' => array(
+      'template' => 'output',
+      'path' => drupal_get_path('module', 'mycalendartabs'),
+      'type' => 'theme',
+      'variables' => array(
+        'month' => NULL,
+        'year' => NULL,
+        'upcoming' => NULL,
+      ),
+    ),
+  );
+}

@@ -1,0 +1,22 @@
+#mynavbar {
+  display: table;
+  table-layout: fixed;
+  width: 100%; }
+  #mynavbar a {
+    display: table-cell;
+    padding: 5px; }
+    #mynavbar a button {
+      height: 25px;
+      cursor: pointer;
+      width: 100%;
+      color: #333;
+      font-family: 'Arial Regular', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      background-color: white;
+      border: 1px solid red; }
+
+/*# sourceMappingURL=mynavbar.css.map */

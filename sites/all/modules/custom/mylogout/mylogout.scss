@@ -1,0 +1,49 @@
+$font_color: #333;
+
+#mylogout {
+  text-align: right;
+  font-size: 16px;
+  padding: 10px;
+  
+  // background gradient
+  background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(224,224,224,0.65) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(224,224,224,0.65))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(224,224,224,0.65) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(224,224,224,0.65) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(224,224,224,0.65) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(224,224,224,0.65) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#a6a8a8a8',GradientType=1 ); /* IE6-9 */
+  
+  #mylogout-profile {
+    
+    // font styling
+    color: $font-color;
+    font-family: 'Arial Bold', 'Arial';
+    font-weight: 700;
+    font-style: normal;
+    font-size: 13px;
+  }
+  
+  #mylogout-logout {
+    button {
+      height: 25px;
+      width: 100px;
+      margin-left: 15px;
+      cursor: pointer;
+      
+      // font styling
+      color: $font_color;
+      font-family: 'Arial Regular', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      
+      // button styling
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      background-color: white;
+      border: 1px solid red;
+    }
+  }
+  
+}

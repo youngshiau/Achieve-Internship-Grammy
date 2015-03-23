@@ -1,0 +1,8 @@
+name = MyTheme
+description = A custom theme implementing logout, a nav menu, and breadcrumbs.
+core = 7.x
+
+stylesheets[all][] = css/style.css
+
+regions[highlighted] = Highlighted
+regions[content] = Content

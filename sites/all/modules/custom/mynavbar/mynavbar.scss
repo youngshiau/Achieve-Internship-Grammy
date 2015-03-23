@@ -1,0 +1,35 @@
+$font_color: #333;
+
+#mynavbar {
+  // enforce same-width auto-fill buttons for container
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  
+  a {
+    // enforce same-width auto-fill buttons for elements
+    display: table-cell;
+    padding: 5px;
+    
+    button {
+      height: 25px;
+      cursor: pointer;
+      
+      // enforce same-width auto-fill buttons for elements
+      width: 100%;
+      
+      // font styling
+      color: $font_color;
+      font-family: 'Arial Regular', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      
+      // button styling
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      background-color: white;
+      border: 1px solid red;
+    }
+  }
+}
