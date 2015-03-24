@@ -40,9 +40,12 @@ function myeventattendance_block_view($delta = '') {
   $will_attend_status = '';
   $will_not_attend_status = '';
   
+  
+  if($will_attend_flag) {
+    $will_attend_is_flagged = $will_attend_flag->is_flagged($node->nid, $user->uid);
+  }
+  
   // Check if the user will attend.
-  
-  
   if($will_attend_flag 
      && $will_not_attend_flag
      && $will_attend_flag->is_flagged($node->nid, $user->uid)
