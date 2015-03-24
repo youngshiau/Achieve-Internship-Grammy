@@ -91,11 +91,6 @@ function myeventattendance_theme() {
 }
 
 function myeventattendance_flag_flag($flag, $entity_id, $account, $flagging) {
-  //global $user;
-  //$node = menu_get_object();
-  
-  $will_attend_flag = flag_get_flag('will_attend');
-  $will_not_attend_flag = flag_get_flag('will_not_attend');
   
   if($flag->name == 'will_attend') {
     flag('unflag', 'will_not_attend', $entity_id);
