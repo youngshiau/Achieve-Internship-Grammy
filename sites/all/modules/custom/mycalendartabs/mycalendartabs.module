@@ -1,5 +1,14 @@
 <?php
+/**
+ * @file
+ * Logic to handle the MyCalendarTabs module.
+ */
 
+/**
+ * Declares what blocks are provided by MyCalendarTabs.
+ *
+ * Implements hook_block_info().
+ */
 function mycalendartabs_block_info() {
   $block['mycalendartabs'] = array(
     'info' => t('My Calendar Tabs'),
@@ -8,6 +17,11 @@ function mycalendartabs_block_info() {
   return $block;
 }
 
+/**
+ * Defines what mycalendartabs is going to look like.
+ *
+ * Implements hook_block_view().
+ */
 function mycalendartabs_block_view($delta = '') {
   $block = array();
   
@@ -26,9 +40,16 @@ function mycalendartabs_block_view($delta = '') {
   return $block;
 }
 
+/**
+ * Themes the block using hook_theme to specify a theme function and implements
+ * it using theme_mythemefunction.
+ *
+ * Implements hook_theme().
+ */
 function mycalendartabs_theme() {
   global $base_path;
   
+  // theme block with template file
   return array(
     'mycalendartabs_output' => array(
       'template' => 'output',

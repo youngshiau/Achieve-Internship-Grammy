@@ -1,13 +1,21 @@
+/**
+ * @file
+ * Styling for MyCalendarTabs.
+ *
+ * Styles the 'Month', 'Year', and 'Upcoming' buttons for MyCalendarTabs for
+ * choosing which block to show.
+ */
 #mycalendartabs-tabs {
   span {
-    width: 100px;
+    /* Styling for all calendar tabs. */
     display: inline-block;
+    width: 100px;
     text-align: center;
     cursor: pointer;
   }
   
   .selected {
-    // button styling for selected tab
+    /* Button styling for selected calendar tab. */
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     background-color: gray;
@@ -15,6 +23,7 @@
   }
 }
 
+/* Initially hides the calendar blocks that aren't selected. */
 #calendar-year, #calendar-upcoming {
   display: none;
 }

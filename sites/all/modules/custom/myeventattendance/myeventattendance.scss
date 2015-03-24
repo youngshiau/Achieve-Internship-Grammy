@@ -1,42 +1,82 @@
+/**
+ * @file
+ * Styling for MyEventAttendance buttons.
+ * 
+ * Styles the 'Will Attend' and 'Will Not Attend' buttons for marking whether
+ * or not a user will attend and event.
+ */
+
 #myeventattendance-buttons {
+  /* Styles the 'Will Attend' and 'Will Not Attend' buttons. */
+  display: inline-block;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  display: inline-block;
   border: 1px gray solid;
   
+  /* Adds a dividing border between the two buttons. */
   #myeventattendance-will {
     border-right: 1px solid gray;
   }
   
+  /* Expands the 'a' tag to improve user experience when clicking. */
+  #myeventattendance-will, 
+  #myeventattendance-wont {
+    >span {
+      display: inline-block;
+      width: 100%;
+      >a {
+        display: inline-block;
+        width: 100%;
+      }
+      
+      /* Hides the throbber's empty space because it isn't used. */
+      >span.flag-throbber {
+        display: none;
+      }
+    }
+  }
+  
+  /* Sets the size of each button. */
   >span {
     display: inline-block;
     width: 150px;
     text-align: center;
   }
   
+  /* Removes the color from the a tag. */
   a {
     text-decoration: none;
   }
   
+  /* Sets the text color of the unselected button to be dark gray. */
   a:not(.selected) {
     color: #333;
   }
   
+  /* Sets the text color of the selected button to be white. */
   .selected a {
     color: white;
   }
   
+  /* Adds background color and removes clickability from the selected button. */
   .selected {
     background-color: gray;
     pointer-events: none;
   }
 }
 
+/* Styling for the pair of buttons. */
 #attending-wrapper {
+  
+  /* Forces the buttons to the left side. */
   float: left;
+  
+  /* Styles the wrapper of the buttons to look like one button. */
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  
+  /* Define the size of the wrapper and give it a visible border. */
   display: inline-block;
-  border: 1px gray solid;
   width: 150px;
+  border: 1px gray solid;
 }

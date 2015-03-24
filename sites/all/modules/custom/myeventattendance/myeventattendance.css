@@ -5,6 +5,14 @@
   border: 1px gray solid; }
   #myeventattendance-buttons #myeventattendance-will {
     border-right: 1px solid gray; }
+  #myeventattendance-buttons #myeventattendance-will > span, #myeventattendance-buttons #myeventattendance-wont > span {
+    display: inline-block;
+    width: 100%; }
+    #myeventattendance-buttons #myeventattendance-will > span > a, #myeventattendance-buttons #myeventattendance-wont > span > a {
+      display: inline-block;
+      width: 100%; }
+    #myeventattendance-buttons #myeventattendance-will > span > span.flag-throbber, #myeventattendance-buttons #myeventattendance-wont > span > span.flag-throbber {
+      display: none; }
   #myeventattendance-buttons > span {
     display: inline-block;
     width: 150px;
@@ -24,6 +32,7 @@
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   display: inline-block;
-  border: 1px gray solid; }
+  border: 1px gray solid;
+  width: 150px; }
 
 /*# sourceMappingURL=myeventattendance.css.map */

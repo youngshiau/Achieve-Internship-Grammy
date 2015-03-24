@@ -1,5 +1,14 @@
 <?php
+/**
+ * @file
+ * Logic to handle the MyEventAttendance module.
+ */
 
+/**
+ * Declares what blocks are provided by MyEventAttendance.
+ *
+ * Implements hook_block_info().
+ */
 function myeventattendance_block_info() {
   $block['myeventattendance'] = array(
     'info' => t('My Event Attendance'),
@@ -8,6 +17,11 @@ function myeventattendance_block_info() {
   return $block;
 }
 
+/**
+ * Defines what myeventattendance is going to look like.
+ *
+ * Implements hook_block_view().
+ */
 function myeventattendance_block_view($delta = '') {
   global $user;
   $block = array();
@@ -22,16 +36,18 @@ function myeventattendance_block_view($delta = '') {
   $will_not_attend_link = flag_create_link('will_not_attend', $node->nid);
   
   // Set variables to display status of flag.
-  $status = 'Error calling flag_get_flag.';
+  $status = t('Error calling flag_get_flag.');
   $will_attend_status = '';
   $will_not_attend_status = '';
   
   // Check if the user will attend.
+  
+  
   if($will_attend_flag 
      && $will_not_attend_flag
      && $will_attend_flag->is_flagged($node->nid, $user->uid)
      && !$will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
-    $status = 'You will attend.';
+    $status = t('You will attend.');
     $will_attend_status = 'selected';
   }
   
@@ -40,16 +56,16 @@ function myeventattendance_block_view($delta = '') {
           && $will_not_attend_flag
           && !$will_attend_flag->is_flagged($node->nid, $user->uid)
           && $will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
-    $status = 'You will not attend.';
+    $status = t('You will not attend.');
     $will_not_attend_status = 'selected';
   }
   
-  //both attending?!
+  // Error; the code should never reach this point.
   else if($will_attend_flag 
           && $will_not_attend_flag
           && $will_attend_flag->is_flagged($node->nid, $user->uid)
           && $will_not_attend_flag->is_flagged($node->nid, $user->uid)) {
-    $status = 'You are both attending and not attending?!';
+    $status = t('ERROR: You\'re both attending and not attending this event.');
     $will_attend_status = 'selected';
     $will_not_attend_status = 'selected';
   }
@@ -75,6 +91,12 @@ function myeventattendance_block_view($delta = '') {
   return $block;
 }
 
+/**
+ * Themes the block using hook_theme to specify a theme function and implements
+ * it using theme_mythemefunction.
+ *
+ * Implements hook_theme().
+ */
 function myeventattendance_theme() {  
   return array(
     'myeventattendance_output' => array(
@@ -90,15 +112,17 @@ function myeventattendance_theme() {
   );
 }
 
+/**
+ * Unflags the 'Will Not Attend' flag when the 'Will Attend' flag is flagged, 
+ * or vice versa.
+ *
+ * Implements hook_flag_flag().
+ */
 function myeventattendance_flag_flag($flag, $entity_id, $account, $flagging) {
-  
   if($flag->name == 'will_attend') {
     flag('unflag', 'will_not_attend', $entity_id);
   }
   else if($flag->name == 'will_not_attend') {
     flag('unflag', 'will_attend', $entity_id);
-  }
-  else {
-    // how...?
   }
 }

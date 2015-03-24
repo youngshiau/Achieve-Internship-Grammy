@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Declare what blocks are provided by My Navbar.
+ * Declares what blocks are provided by My Navbar.
  *
  * Implements hook_block_info().
  */
@@ -38,7 +38,7 @@ function mynavbar_block_view($delta = '') {
 }
 
 /**
- * Themes the block using hook_theme to specify a theme function and implement
+ * Themes the block using hook_theme to specify a theme function and implements
  * it using theme_mythemefunction.
  *
  * Implements hook_theme().
@@ -50,7 +50,7 @@ function mynavbar_theme() {
   return array(
     'mynavbar_output' => array(
       'template' => 'output', 
-      'path' => $base_path . 'sites/all/modules/custom/mynavbar/templates', 
+      'path' => drupal_get_path('module', 'mynavbar') . '/templates',
       'type' => 'theme', 
       'variables' => array(
         'calendar' => NULL, 
