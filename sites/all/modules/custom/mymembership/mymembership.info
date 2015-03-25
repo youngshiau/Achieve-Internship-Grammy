@@ -4,7 +4,3 @@ package = MyPackage
 core = 7.x
 
 stylesheets[all][] = mymembership.css
-
-
-; Views handlers
-files[] = includes/views/handlers/mymembership_handler_argument_string.inc
