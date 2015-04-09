@@ -54,12 +54,12 @@ function mymembership_user_form($form, &$form_state) {
   // Query the mymembership_requests and mymembership_user_committees tables for
   // all committees for which the user is already a member of, or has a pending
   // request to join.
-  $query = 'SELECT r.cid FROM mymembership_requests r 
-            WHERE r.uid = ' . $uid . ' 
+  $query = 'SELECT r.cid FROM {mymembership_requests} r 
+            WHERE r.uid = :uid
             UNION 
             SELECT c.cid FROM mymembership_user_committees c 
-            WHERE c.uid = ' . $uid;
-  $remove_committees = db_query($query);
+            WHERE c.uid = :uid';
+  $remove_committees = db_query($query, array(':uid' => $uid));
   
   // Remove those entries from the dropdown menu.
   foreach($remove_committees as $committee) {
@@ -240,11 +240,9 @@ function mymembership_admin_form_submit($form, &$form_state) {
     
     // If option 2 was selected, put the request aside (do nothing).
     // { Doing nothing. }
-    
   }
   
   // Set the message to be displayed upon processing all requests.
   $message = 'All requests have been processed. Thank you.';
   drupal_set_message($message);
-  
 }

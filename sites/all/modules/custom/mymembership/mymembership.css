@@ -1,3 +1,10 @@
+/**
+ * @file
+ * Styling for MyMembership forms.
+ * 
+ * Most of these are small adjustments to make things look cleaner. Some of
+ * these have a large impact on how the admin form is displayed.
+ */
 form div
 .form-item
 .form-type-radio {
@@ -29,7 +36,8 @@ form div
   vertical-align: middle; }
 
 #edit-submit-button {
-  margin-top: 20px; }
+  margin-top: 20px;
+  display: block; }
 
 .mymembership-button {
   display: inline-block;

@@ -19,7 +19,7 @@ function mymembership_views_plugins() {
     'handler' => 'mymembership_plugin_exposed_form',
   );
   return $plugin;
-}
+} 
 
 /**
  * Implementation of hook_views_data().
