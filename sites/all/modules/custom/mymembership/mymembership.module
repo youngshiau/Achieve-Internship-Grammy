@@ -1,14 +1,16 @@
 <?php
   
 /**
- *
+ * @file
+ * Logic to handle the MyMembership module.
+ */
+  
+/**
  * Implementation of hook_views_api().
  */
 function mymembership_views_api() {
   return array(
     'api' => 3,
-    //'path' => drupal_get_path('module', 'mycommitteemembership') . '/includes/views',
-    //'template path' => drupal_get_path('module', 'mycommitteemembership') . '/templates',
   );
 }
 
@@ -64,14 +66,13 @@ function mymembership_user_form($form, &$form_state) {
     unset($terms[$committee->cid]);
   }
 
-
+  // Add a hidden field to send the user's uid.
   $form['uid'] = array(
     '#type' => 'hidden',
     '#value' => $user->uid,
   );
   
-  
-
+  // Create a field to allow the user to select the committee they'd like to join.
   $form['cid'] = array(
     '#type' => 'select',
     '#title' => t('Committee'),
@@ -81,6 +82,7 @@ function mymembership_user_form($form, &$form_state) {
     '#required' => TRUE,
   );
   
+  // Adds a submit button.
   $form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Submit Committee Request'),
@@ -96,10 +98,13 @@ function mymembership_user_form($form, &$form_state) {
  */
 function mymembership_admin_form($form, &$form_state) {
   
-  $num_requests = db_query('SELECT COUNT(*) AS count FROM mymembership_requests r')
+  // Query to check if there are any pending requests. If there aren't, then 
+  // display a message stating that there aren't any requests. Otherwise,
+  // display the admin form.
+  $query = 'SELECT COUNT(*) AS count FROM mymembership_requests r';
+  $num_requests = db_query($query)
     ->fetchObject()
     ->count;
-
   if($num_requests == 0) {
     $no_requests = 'There are no pending requests at this time.';
     $form['users'] = array(
@@ -110,45 +115,65 @@ function mymembership_admin_form($form, &$form_state) {
     return $form;
   }
   
-  $controls = '<span id="mymembership-accept" class="mymembership-button">Accept All</span>';
-  $controls .= '<span id="mymembership-reject" class="mymembership-button">Reject All</span>';
-  $controls .= '<span id="mymembership-put-aside" class="mymembership-button">Put All Aside</span>';
+  // Prepend some buttons to the beginning of the form. These buttons allow the 
+  // user to select entire columns of options.
+  $controls = '<span id="mymembership-accept" class="mymembership-button">
+                 Accept All
+               </span>';
+  $controls .= '<span id="mymembership-reject" class="mymembership-button">
+                  Reject All
+                </span>';
+  $controls .= '<span id="mymembership-put-aside" class="mymembership-button">
+                  Put All Aside
+                </span>';
   
+  // This acts as an anchor for the previos three buttons. This also contains
+  // an array containing the uid's and cid's of each request to be used in
+  // the submit function. 
   $form['users'] = array(
     '#type' => 'hidden',
     '#value' => array(),
     '#prefix' => $controls,
   );
-    
-  $query = 'SELECT r.uid AS uid, r.cid AS cid, u.name AS user_name, t.name AS committee_name 
+  
+  // Query the database for all requests along with the appropriate ID values.
+  $query = 'SELECT r.uid AS uid, r.cid AS cid, u.name AS user_name, t.name 
+            AS committee_name 
             FROM mymembership_requests r, users u, taxonomy_term_data t 
             WHERE r.uid = u.uid AND t.tid = r.cid';
   $pending_requests = db_query($query);  
   
+  // Take the results of the query and create a form field for each one.
   foreach($pending_requests as $request) {
     $uid = $request->uid;
     $cid = $request->cid;
     $user_name = $request->user_name;
     $committee_name = $request->committee_name;
     
+    // Define the options for the current request.
     $options = array(
       $uid . ',' . $cid . ',1' => 'Accept',
       $uid . ',' . $cid . ',0' => 'Reject',
       $uid . ',' . $cid . ',2' => 'Put Aside',
     );
     
+    // Define the field for the current request.
     $form[$uid . ',' . $cid] = array(
       '#type' => 'radios',
       '#title' => t(''),
-      '#description' => t('Accept, Reject, or Put Aside <b>' . $user_name . '</b>\'s request to join <b>' . $committee_name . '</b>.'),
+      '#description' => t('Accept, Reject, or Put Aside <b>' . $user_name . 
+                          '</b>\'s request to join <b>' . $committee_name . 
+                          '</b>.'),
       '#options' => $options,
       '#required' => TRUE,
       '#default_value' => $uid . ',' . $cid . ',2',
     );
     
+    // Store the user ID/committee ID values in a hidden field.
     $form['users']['#value'][] = $uid . ',' . $cid;
   }
   
+  // Adds a submit button.
   $form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
@@ -161,72 +186,65 @@ function mymembership_admin_form($form, &$form_state) {
  * Implementation of hook_form_submit() for users.
  */
 function mymembership_user_form_submit($form, &$form_state) {
+  
+  // Inserts a new request into the requests table.
   db_insert('mymembership_requests')
     ->fields(array(
       'uid' => $form_state['values']['uid'],
       'cid' => $form_state['values']['cid'],
     ))->execute();
   
-  drupal_set_message('Your request has been processed and is now pending approval. Thank you.'); 
+  drupal_set_message('Your request has been processed and is now pending 
+                      approval. Thank you.'); 
 }
 
 /**
  * Implementation of hook_form_submit() for admins.
  */
 function mymembership_admin_form_submit($form, &$form_state) {
-  
-  $DEBUG = FALSE;
-  
-
-  
-  if($DEBUG) {
-    $message = print_r($form_state['values'], TRUE);
-    drupal_set_message('<pre>' . $message . '</pre>');
     
-  }
-  else {
+  // Get the requests to be displayed and loop through them.
+  $users = $form_state['values']['users'];
+  foreach($users as $user) {
     
-    $users = $form_state['values']['users'];
-    foreach($users as $user) {
-      $message .= $user . '\n';
+    // Parse the value by using commas as a delimiter.
+    $user_options = explode(',', $form_state['values'][$user]);
+    $uid = $user_options[0];
+    $cid = $user_options[1];
+    $option = $user_options[2];
+    
+    // If option 1 was selected, accept the request.
+    if($option == 1) {
       
-      $user_options = explode(',', $form_state['values'][$user]);
-      $uid = $user_options[0];
-      $cid = $user_options[1];
-      $option = $user_options[2];
-      
-      // Accept the request.
-      if($option == 1) {
-        
-        // Associate the user with the committee and remove the request.
-        db_insert('mymembership_user_committees')
-          ->fields(array(
-            'uid' => $uid,
-            'cid' => $cid,
-          ))->execute();
-        db_delete('mymembership_requests')
-        	->condition('uid', $uid)
-        	->condition('cid', $cid)
-        	->execute();
-      }
-      
-      // Reject the request.
-      else if($option == 0) {
-        
-        // Remove the request.
-        db_delete('mymembership_requests')
-        	->condition('uid', $uid)
-        	->condition('cid', $cid)
-        	->execute();
-      }
-      
-      // Put the request aside (do nothing).
-      // { Doing nothing. }
-      
+      // Associate the user with the committee and remove the request.
+      db_insert('mymembership_user_committees')
+        ->fields(array(
+          'uid' => $uid,
+          'cid' => $cid,
+        ))->execute();
+      db_delete('mymembership_requests')
+      	->condition('uid', $uid)
+      	->condition('cid', $cid)
+      	->execute();
     }
     
-    $message = 'All requests have been processed. Thank you.';
-    drupal_set_message($message);
+    // If option 0 was selected, reject the request.
+    else if($option == 0) {
+      
+      // Remove the request.
+      db_delete('mymembership_requests')
+      	->condition('uid', $uid)
+      	->condition('cid', $cid)
+      	->execute();
+    }
+    
+    // If option 2 was selected, put the request aside (do nothing).
+    // { Doing nothing. }
+    
   }
+  
+  // Set the message to be displayed upon processing all requests.
+  $message = 'All requests have been processed. Thank you.';
+  drupal_set_message($message);
   
 }

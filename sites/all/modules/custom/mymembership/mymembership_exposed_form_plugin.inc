@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file
+ * I can't remember what this was for. I think I was experimenting with creating
+ * plugins.
+ */
+
 class mymembership_exposed_form_plugin extends views_plugin_exposed_form_basic {
   function summary_title() {
     return t('MyMembership Plugin');

@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * @file
+ * Logic to handle the MyMembership module.
+ *
+ * Incomplete. This was supposed to create a views plugin, but I never finished
+ * the code.
+ */
+
+/**
  * Implementation of hook_views_plugins().
  */
 function mymembership_views_plugins() {

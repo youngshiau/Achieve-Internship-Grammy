@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Defines the schemas for the tables necessary for the MyMembership module.
+ */
+
 function mymembership_schema() {
   
   // Table for membership requests.
@@ -57,6 +62,7 @@ function mymembership_schema() {
   return $schema;
 }
 
+// Modify mymembership_requests to have the correct timestamp type.
 function mymembership_enable() {
   db_query('
     ALTER TABLE {mymembership_requests}

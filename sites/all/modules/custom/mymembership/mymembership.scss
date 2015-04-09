@@ -1,21 +1,34 @@
+/**
+ * @file
+ * Styling for MyMembership forms.
+ * 
+ * Most of these are small adjustments to make things look cleaner. Some of
+ * these have a large impact on how the admin form is displayed.
+ */
+
 form {
+  
+  // Forces the radio buttons (which are usually vertical) to be horizontal.
   div
   .form-item
   .form-type-radio {
     width: 100px;
     float:left;
     
+    // Better alignment for radio buttons and text for each request.
     > input.form-radio {
       vertical-align: baseline;
     }
   }
   
+  // Fixes some spacing issues; without this, each request will be staggered.
   >div
   >div.form-item {
     margin: 0px;
     padding: 1px 0px;
   }
   
+  // Colors the rows alternating colors for better readability.
   >div
   >div.form-item:nth-child(odd) {
     background-color: rgb(222, 237, 250);
@@ -23,11 +36,14 @@ form {
   
   div
   .form-type-radios {
+    
+    // Better alignment for radio buttons and text for each request.
     .description {
       line-height: 1.8;
       margin-left: 400px;
     }
     
+    // Forces the 'required' asterisk onto the left side and into the same line.
     > label {
       float: left;
       margin-right: 10px;
@@ -35,17 +51,20 @@ form {
       margin-left: 10px;
     }
     
+    // Better alignment for radio buttons and text for each request.
     label {
       vertical-align: middle;
     }
   }
 }
 
+// Gives the submit button a little spacing.
 #edit-submit-button {
   margin-top: 20px;
   display: block;
 }
 
+// Styles the 'All' spans into buttons.
 .mymembership-button {
   display: inline-block;
   -moz-border-radius: 5px;
