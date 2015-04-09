@@ -1,0 +1,66 @@
+<?php
+
+function mymembership_schema() {
+  
+  // Table for membership requests.
+  $schema['mymembership_requests'] = array(
+    'description' => t('The requests table for MyMembership'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('The ID of the user requesting membership.'),
+        'type' => 'int',
+        'length' => 11,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'cid' => array(
+        'description' => t('The ID of the committee that the user wants to join.'),
+        'type' => 'int',
+        'length' => 11,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => t('The date this request was submitted.'),
+        'mysql_type' => 'timestamp',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid', 'cid'),
+  );
+  
+  // Table to associate users with committees.
+  $schema['mymembership_user_committees'] = array(
+    'description' => t('The table that associates users with committees.'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('The user ID.'),
+        'type' => 'int',
+        'length' => 11,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'cid' => array(
+        'description' => t('The committee ID attached to this user ID.'),
+        'type' => 'int',
+        'length' => 11,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    
+    // Set the primary key to be a combination of the uid and cid. This ensures
+    // that the same user cannot map to the same committee multiple times.
+    'primary key' => array('uid', 'cid'),
+  );
+  
+  return $schema;
+}
+
+function mymembership_enable() {
+  db_query('
+    ALTER TABLE {mymembership_requests}
+    MODIFY created TIMESTAMP NOT NULL
+    DEFAULT CURRENT_TIMESTAMP'
+  );
+}

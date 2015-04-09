@@ -1,0 +1,60 @@
+form {
+  div
+  .form-item
+  .form-type-radio {
+    width: 100px;
+    float:left;
+    
+    > input.form-radio {
+      vertical-align: baseline;
+    }
+  }
+  
+  >div
+  >div.form-item {
+    margin: 0px;
+    padding: 1px 0px;
+  }
+  
+  >div
+  >div.form-item:nth-child(odd) {
+    background-color: rgb(222, 237, 250);
+  }
+  
+  div
+  .form-type-radios {
+    .description {
+      line-height: 1.8;
+      margin-left: 400px;
+    }
+    
+    > label {
+      float: left;
+      margin-right: 10px;
+      margin-top: 7px;
+      margin-left: 10px;
+    }
+    
+    label {
+      vertical-align: middle;
+    }
+  }
+}
+
+#edit-submit-button {
+  margin-top: 20px;
+  display: block;
+}
+
+.mymembership-button {
+  display: inline-block;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px gray solid;
+  width: 120px;
+  text-align: center;
+  margin: 5px;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+}

@@ -36,36 +36,36 @@ function mymembership_views_data() {
   // implicit relationship to the node table, so that when 'node' is the base
   // table, the fields automatically become available.
   $data['mymembership_requests']['table']['join'] = array(
-    'node' => array (
-      'left_field' => 'nid', // primary key in referenced table
+    'users' => array (
+      'left_field' => 'uid', // primary key in referenced table
       'field' => 'uid', // foreign key in this table
     ),
   );
-  
-  // Request ID table field.
-  $data['mymembership_requests']['rid'] = array(
-    'title' => t('MyMembership Request'),
-    'help' => t('MyMembership unique request ID'),
-  );
+
   
   // User (node, not actual user) ID table field.
   $data['mymembership_requests']['uid'] = array(
     'title' => t('MyMembership Request - user ID'),
     'help' => t('MyMembership user ID'),
     'relationship' => array(
-      'base' => 'node', // The name of the table to join with.
-      'base field' => 'nid',
+      'base' => 'users', // The name of the table to join with.
+      'base field' => 'uid',
       'handler' => 'views_handler_relationship',
-      'label' => t('Label for relationship between MyMembership uid and node'),
-      'title' => t('Title to show when adding relationship between MyMembership uid and node'),
-      'help' => t('Add information here for relationship between MyMembership uid and node'),
+      'label' => t('Label for relationship between MyMembership uid and users'),
+      'title' => t('Title to show when adding relationship between MyMembership uid and users'),
+      'help' => t('Add information here for relationship between MyMembership uid and users'),
     ),
   );
   
   // Committee ID table field.
+  
+  /*
   $data['mymembership_requests']['cid'] = array(
     'title' => t('MyMembership Request - committee ID'),
     'help' => t('MyMembership committee ID'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
     'relationship' => array(
       'base' => 'node',
       'base field' => 'nid',
@@ -75,9 +75,10 @@ function mymembership_views_data() {
       'help' => t('Add information here for relationship between MyMembership cid and node'),
     ),
   );
+  */
   
   // MyMembership timestamp field.
-  $data['mymembership_requests']['timestamp_field'] = array(
+  $data['mymembership_requests']['created'] = array(
     'title' => t('Timestamp field'),
     'help' => t('Timestamp of when user submitted membership request'),
     'field' => array(
