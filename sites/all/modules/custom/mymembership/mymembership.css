@@ -5,39 +5,49 @@
  * Most of these are small adjustments to make things look cleaner. Some of
  * these have a large impact on how the admin form is displayed.
  */
-form div
-.form-item
-.form-type-radio {
-  width: 100px;
-  float: left; }
-  form div
-  .form-item
-  .form-type-radio > input.form-radio {
-    vertical-align: baseline; }
-form > div
-> div.form-item {
-  margin: 0px;
-  padding: 1px 0px; }
-form > div
-> div.form-item:nth-child(odd) {
-  background-color: #deedfa; }
-form div
-.form-type-radios .description {
-  line-height: 1.8;
-  margin-left: 400px; }
-form div
-.form-type-radios > label {
-  float: left;
-  margin-right: 10px;
-  margin-top: 7px;
-  margin-left: 10px; }
-form div
-.form-type-radios label {
-  vertical-align: middle; }
+form > div > div {
+  padding-left: 5px;
+  height: 50px; }
 
-#edit-submit-button {
-  margin-top: 20px;
-  display: block; }
+form > div > div > span {
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 12.5px; }
+
+form > div > div:nth-child(even) {
+  background-color: #deedfa; }
+
+form > div > div:nth-child(odd) {
+  background-color: #fff; }
+
+form > div > div > input {
+  float: left;
+  margin-top: 8px; }
+
+.form-radios > div:first-child {
+  left: 100px;
+  position: absolute;
+  line-height: 1; }
+
+.form-radios > div:nth-child(2) {
+  left: 200px;
+  position: absolute;
+  line-height: 1; }
+
+.description {
+  position: absolute;
+  left: 300px; }
+
+.ajax-progress.ajax-progress-throbber {
+  float: left;
+  z-index: 100;
+  display: block;
+  background-color: inherit;
+  width: 100%;
+  position: absolute;
+  height: 37.5px;
+  margin-left: -5px;
+  padding-top: 12.5px; }
 
 .mymembership-button {
   display: inline-block;

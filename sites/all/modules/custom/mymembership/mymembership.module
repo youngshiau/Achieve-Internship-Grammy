@@ -123,9 +123,6 @@ function mymembership_admin_form($form, &$form_state) {
   $controls .= '<span id="mymembership-reject" class="mymembership-button">
                   Reject All
                 </span>';
-  $controls .= '<span id="mymembership-put-aside" class="mymembership-button">
-                  Put All Aside
-                </span>';
   
   // This acts as an anchor for the previos three buttons. This also contains
   // an array containing the uid's and cid's of each request to be used in
@@ -154,30 +151,37 @@ function mymembership_admin_form($form, &$form_state) {
     $options = array(
       $uid . ',' . $cid . ',1' => 'Accept',
       $uid . ',' . $cid . ',0' => 'Reject',
-      $uid . ',' . $cid . ',2' => 'Put Aside',
+    );
+    
+    // Submit button for individual row.
+    $form['submit_row_' . $uid . '_' . $cid] = array(
+      '#type' => 'button',
+      '#name' => $uid . '-' . $cid,
+      '#executes_submit_callback' => FALSE,
+      
+      // Process the AJAX request
+      '#ajax' => array(
+        'callback' => '_process_request',
+      ),
+      '#value' => t('Submit'),
+      '#prefix' => '<div id="d-' . $uid . '-' . $cid . '">',
+      '#attributes' => array('data' => $uid . ',' . $cid),
     );
     
     // Define the field for the current request.
-    $form[$uid . ',' . $cid] = array(
+    $form[$uid . '-' . $cid] = array(
       '#type' => 'radios',
       '#title' => t(''),
-      '#description' => t('Accept, Reject, or Put Aside <b>' . $user_name . 
+      '#description' => t('Accept or Reject <b>' . $user_name . 
                           '</b>\'s request to join <b>' . $committee_name . 
                           '</b>.'),
       '#options' => $options,
-      '#required' => TRUE,
-      '#default_value' => $uid . ',' . $cid . ',2',
+      '#suffix' => '</div>',
     );
     
     // Store the user ID/committee ID values in a hidden field.
     $form['users']['#value'][] = $uid . ',' . $cid;
   }
-  
-  // Adds a submit button.
-  $form['submit_button'] = array(
-    '#type' => 'submit',
-    '#value' => t('Submit'),
-  );
 
   return $form;
 }
@@ -237,12 +241,71 @@ function mymembership_admin_form_submit($form, &$form_state) {
       	->condition('cid', $cid)
       	->execute();
     }
-    
-    // If option 2 was selected, put the request aside (do nothing).
-    // { Doing nothing. }
   }
   
   // Set the message to be displayed upon processing all requests.
   $message = 'All requests have been processed. Thank you.';
   drupal_set_message($message);
+}
+
+// Process the AJAX request from accepting or rejecting a request.
+function _process_request($form, &$form_state) {
+
+  // Some debugging options.
+  $fs = print_r($form_state, TRUE);
+  $fr = print_r($form, TRUE);
+
+  // Get the button clicked from the form state.
+  $button_name = $form_state['triggering_element']['#name'];
+  
+  // Get the options selected from the form state.
+  $user_options = $form_state['input'][$button_name];
+  
+  // Parse the user options and save them.
+  $user_options = explode(',', $user_options);
+  $uid = $user_options[0];
+  $cid = $user_options[1];
+  $option = $user_options[2];
+  
+  // Get the user and committee for this request.
+  $curr_user = user_load($uid);
+  $curr_username = $curr_user->name;
+  $committee_name = taxonomy_term_load($cid)->name;
+  
+  // Initialize message with debug statement.
+  $message = 'ERROR.';
+  
+  // If the user doesn't select an option, send them an error message.
+  if(!isset($user_options[2])) {
+    $message = '<div class="description red">' . t('Please either ') . $form[$uid . '-' . $cid]['#description'] . '</div>';
+    $commands = array();
+    $commands[] = ajax_command_replace('.description', $message);
+    return array('#type' => 'ajax', '#commands' => $commands);
+  }
+  
+  // If option 1 was selected, accept the request.
+  if($option == 1) {
+    $message = '<div><span>You have <b>accepted</b> <b>'. $curr_username .'</b>\'s request to join <b>' . $committee_name . '</b>.</span></div>';
+    db_insert('mymembership_user_committees')
+      ->fields(array(
+        'uid' => $uid,
+        'cid' => $cid,
+      ))->execute();
+    db_delete('mymembership_requests')
+    	->condition('uid', $uid)
+    	->condition('cid', $cid)
+    	->execute();
+  }
+  
+  // If option 0 was selected, accept the request.
+  else if($option == 0) {
+    $message = '<div><span>You have <b>rejected</b> <b>'. $curr_username .'</b>\'s request to join <b>' . $committee_name . '</b>.</span></div>';
+    db_delete('mymembership_requests')
+    	->condition('uid', $uid)
+    	->condition('cid', $cid)
+    	->execute();
+  }
+  
+  $commands[] = ajax_command_replace('#d-' . $uid . '-' . $cid, $message);
+  return array('#type' => 'ajax', '#commands' => $commands);
 }

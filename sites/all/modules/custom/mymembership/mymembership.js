@@ -15,7 +15,6 @@ Drupal.behaviors.myMembership = {
     var radios = document.getElementsByClassName('form-radio');
     var acceptAll = $('#mymembership-accept');
     var rejectAll = $('#mymembership-reject');
-    var processLaterAll = $('#mymembership-put-aside');
 
     // Attach a click handler to the Accept All button.
     acceptAll.click(function() {
@@ -27,10 +26,6 @@ Drupal.behaviors.myMembership = {
       selectAll(1, radios);
     });
 
-    // Attach a click handler to the Process All Later button.
-    processLaterAll.click(function() {
-      selectAll(2, radios);
-    });
   }
 };
 /**
@@ -42,7 +37,7 @@ Drupal.behaviors.myMembership = {
  *   An array of the radio elements
  */
 function selectAll(option, radios) {
-  for(var i = option; i < radios.length; i = i + 3) {
+  for(var i = option; i < radios.length; i = i + 2) {
   	radios[i].checked = true;
   }
 }

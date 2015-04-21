@@ -6,63 +6,62 @@
  * these have a large impact on how the admin form is displayed.
  */
 
-form {
-  
-  // Forces the radio buttons (which are usually vertical) to be horizontal.
-  div
-  .form-item
-  .form-type-radio {
-    width: 100px;
-    float:left;
-    
-    // Better alignment for radio buttons and text for each request.
-    > input.form-radio {
-      vertical-align: baseline;
-    }
-  }
-  
-  // Fixes some spacing issues; without this, each request will be staggered.
-  >div
-  >div.form-item {
-    margin: 0px;
-    padding: 1px 0px;
-  }
-  
-  // Colors the rows alternating colors for better readability.
-  >div
-  >div.form-item:nth-child(odd) {
-    background-color: rgb(222, 237, 250);
-  }
-  
-  div
-  .form-type-radios {
-    
-    // Better alignment for radio buttons and text for each request.
-    .description {
-      line-height: 1.8;
-      margin-left: 400px;
-    }
-    
-    // Forces the 'required' asterisk onto the left side and into the same line.
-    > label {
-      float: left;
-      margin-right: 10px;
-      margin-top: 7px;
-      margin-left: 10px;
-    }
-    
-    // Better alignment for radio buttons and text for each request.
-    label {
-      vertical-align: middle;
-    }
-  }
+form > div > div {
+  padding-left: 5px;
+  height: 50px;
 }
 
-// Gives the submit button a little spacing.
-#edit-submit-button {
-  margin-top: 20px;
-  display: block;
+form > div > div > span {
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 12.5px;
 }
+
+form > div > div:nth-child(even) {
+  background-color: #deedfa;
+}
+
+form > div > div:nth-child(odd) {
+  background-color: #fff;
+}
+
+
+form > div > div > input {
+  float: left;
+  margin-top: 8px;
+}
+
+.form-radios > div:first-child {
+  left: 100px;
+  position: absolute;
+  line-height: 1;
+}
+
+.form-radios > div:nth-child(2) {
+  left: 200px;
+  position: absolute;
+    line-height: 1;
+
+}
+
+.description {
+  position: absolute;
+  left: 300px;
+}
+
+
+.ajax-progress.ajax-progress-throbber {
+  float: left;
+  z-index: 100;
+  display: block;
+  background-color: inherit;
+  width: 100%;
+  position: absolute;
+  height: 37.5px;
+  margin-left: -5px;
+  padding-top: 12.5px;
+}
+
 
 // Styles the 'All' spans into buttons.
 .mymembership-button {
